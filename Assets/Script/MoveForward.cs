@@ -1,0 +1,18 @@
+using UnityEngine;
+
+public class MoveForward : MonoBehaviour
+{
+    public float speed=15f;
+    private Animator walkerAnim;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        walkerAnim=GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Translate(Vector3.forward *speed*Time.deltaTime);
+    }
+}
