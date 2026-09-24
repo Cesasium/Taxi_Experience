@@ -12,11 +12,13 @@ public class PickUpClient : MonoBehaviour
     public Vector3 newPos;
     public AudioClip SoundEntrata;
     public AudioSource passeggeroSource;
+    private SpinScript spinScriptObject;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerControllerScript=GameObject.Find("CarPlayer").GetComponent<MoveForwardCar>();
+        spinScriptObject=GameObject.Find("Dollaro").GetComponent<SpinScript>();
         passeggeroSource=GetComponent<AudioSource>();
         Destinazione.SetActive(false);
     }
@@ -38,7 +40,7 @@ public class PickUpClient : MonoBehaviour
         {
             playerControllerScript.PlayerSource.PlayOneShot(SoundEntrata);
             playerControllerScript.entranceParticle.Play();
-            
+            spinScriptObject.gameObject.SetActive(false);
             gameObject.SetActive(false);
             Debug.Log("Passeggero a bordo!");
             IsInCar=true;

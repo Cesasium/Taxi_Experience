@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class RotateScript : MonoBehaviour
 {
-    public GameObject wings;
+    public GameObject GameObjectToRotate;
+    public float speed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,6 +13,6 @@ public class RotateScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        wings.transform.Rotate(Vector3.forward *Time.deltaTime * 250);
+        GameObjectToRotate.transform.Rotate(Vector3.forward *Time.deltaTime * speed);
     }
 }

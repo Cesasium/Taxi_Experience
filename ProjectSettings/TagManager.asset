@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Passeggero
   - Destinazione
+  - Passeggero2
+  - PowerUp
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Segnalino
   - Water
   - UI
   - 
