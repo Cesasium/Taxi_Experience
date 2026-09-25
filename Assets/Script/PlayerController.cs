@@ -12,6 +12,7 @@ public class MoveForwardCar : MonoBehaviour
     public float turnspeed=70.0f;
     public float time=60.0f;
     public float timePowerUp=5.0f;
+    int sec;
     public InputAction moveAction;
     public Vector2 moveInput;
     public InputAction interazioneAction;
@@ -24,6 +25,7 @@ public class MoveForwardCar : MonoBehaviour
     public AudioClip dropOFFSound;
     public ParticleSystem entranceParticle;
     public bool HaPowerUp=false;
+    public bool addTimePowerUp=false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,7 +35,7 @@ public class MoveForwardCar : MonoBehaviour
         playerRB=GetComponent<Rigidbody>();
         PlayerSource=GetComponent<AudioSource>();
         PlayerSource.PlayOneShot(StartUp);
-
+        pickUpClientScript.TimePowerUp.SetActive(false);    //Allo start viene settato il gameobject a false
         currentSpeed=baseSpeed;
     }
 
@@ -88,8 +90,8 @@ public class MoveForwardCar : MonoBehaviour
     void AggiornaGraficaTimer()
     {
         int min=Mathf.FloorToInt(time/60);
-        int sec=Mathf.FloorToInt(time % 60);
-        
+        sec=Mathf.FloorToInt(time % 60);
+        //TimePowerUp();
         testoTimer.text=string.Format("{0:00}:{1:00}",min,sec);
         
     }
@@ -100,7 +102,7 @@ public class MoveForwardCar : MonoBehaviour
         testoPowerUP.text=string.Format("{0:00}",secPowerUp);
     }
     //Funzione PowerUp legge se il valore è uguale a TRUE, se lo è incrementa la velocità di 5 secondi
-    void PowerUp()
+    public void SpeedPowerUp()
     {
         if (HaPowerUp)
         {
@@ -113,10 +115,17 @@ public class MoveForwardCar : MonoBehaviour
         }
 
         
-        
+    }
+    //Funzione TimePowerUp legge se il valore è uguale a TRUE, se lo è incrementa il timer di 5 secondi
+    public void TimePowerUp()
+    {
+        Debug.Log(addTimePowerUp+" Tempo Power UP");
+        if (addTimePowerUp)
+        {
+            time+=5;
+        }
     }
 
-    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Destinazione"))
@@ -136,7 +145,7 @@ public class MoveForwardCar : MonoBehaviour
 
         if (collision.gameObject.CompareTag("PowerUp"))
         {
-            PowerUp();
+            SpeedPowerUp();
         }
         
     }
@@ -148,11 +157,18 @@ public class MoveForwardCar : MonoBehaviour
         {
             Debug.Log("Prima HaPowerup è "+HaPowerUp);
             HaPowerUp=true;
-            PowerUp();
+            SpeedPowerUp();
             Debug.Log("Dopo HaPowerup è "+HaPowerUp);
-            //Destroy(other.gameObject);
             other.gameObject.SetActive(false);
         }
+        //Se la macchina entra in contatto con il powerUP del tempo, viene impostata la variabile a true e viene chiamata la funzione TimePowerUp
+        if (other.CompareTag("TimePowerUp"))
+        {
+            addTimePowerUp=true;
+            TimePowerUp();
+            other.gameObject.SetActive(false);
+        }
+        
     }
 
 }

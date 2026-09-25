@@ -8,6 +8,7 @@ TagManager:
   - Destinazione
   - Passeggero2
   - PowerUp
+  - TimePowerUp
   layers:
   - Default
   - TransparentFX

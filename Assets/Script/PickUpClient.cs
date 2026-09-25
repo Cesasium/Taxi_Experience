@@ -8,6 +8,7 @@ public class PickUpClient : MonoBehaviour
 {
     private MoveForwardCar playerControllerScript; 
     public GameObject Destinazione;
+    public GameObject TimePowerUp;
     public bool IsInCar=false;
     public Vector3 newPos;
     public AudioClip SoundEntrata;
@@ -31,13 +32,12 @@ public class PickUpClient : MonoBehaviour
 
 
 
-
-
     void OnTriggerStay(Collider other)
     {
         //Se il player preme E e si trova al'interno della zona avvia la corsa
         if (playerControllerScript.interazioneAction.triggered)
         {
+            TimePowerUp.SetActive(true);    //Ho attaccato il componente powerUp cosi che una volta si sale in macchina viene attivato
             playerControllerScript.PlayerSource.PlayOneShot(SoundEntrata);
             playerControllerScript.entranceParticle.Play();
             spinScriptObject.gameObject.SetActive(false);
