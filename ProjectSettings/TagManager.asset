@@ -9,6 +9,8 @@ TagManager:
   - Passeggero2
   - PowerUp
   - TimePowerUp
+  - DestinazioneMunicipio
+  - Libreria
   layers:
   - Default
   - TransparentFX
