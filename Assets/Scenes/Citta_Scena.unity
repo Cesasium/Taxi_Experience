@@ -2217,7 +2217,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1557438875757660153, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
   m_PrefabInstance: {fileID: 547126644}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &170521784
+--- !u!114 &170521790
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2226,14 +2226,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 170521778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ea59a3d627cc8149992cb457edbd580, type: 3}
+  m_Script: {fileID: 11500000, guid: dd64dd68d159a544d9fcded9c5655077, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParcheggioToLibreriaScript
-  Abbordo: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PrendiPasseggeri
+  abbordo: 0
   Destinazione: {fileID: 316766595}
-  nuovaPosizione: {x: 0, y: 0, z: 0}
+  nuovaPos: {x: 0, y: 0, z: 0}
   SoundEntrata: {fileID: 8300000, guid: 08ab7053d586c458db3774d33c141a4b, type: 3}
-  passeggero3: {fileID: 0}
+  passeggero: {fileID: 0}
 --- !u!1001 &178439785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6792,11 +6792,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1557438875757660153, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Passeggero2
       objectReference: {fileID: 0}
     - target: {fileID: 2848296552879412067, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.053
+      value: -15.865
       objectReference: {fileID: 0}
     - target: {fileID: 2848296552879412067, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6845,7 +6845,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1557438875757660153, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 170521784}
+      addedObject: {fileID: 170521790}
   m_SourcePrefab: {fileID: 100100000, guid: a68dc1bb7e8a86e419f68f84a6859a2f, type: 3}
 --- !u!1001 &549796332
 PrefabInstance:
@@ -8245,7 +8245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6deb04afadb22446a2a42f7c809839c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.364546
+      value: -16.38
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b6deb04afadb22446a2a42f7c809839c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26930,7 +26930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.364546
+      value: -16.368
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26938,11 +26938,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.0065293
+      value: 6.983
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.71306026
+      value: 0.7091598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalRotation.x
@@ -26950,7 +26950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70110285
+      value: 0.70504785
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalRotation.z
@@ -26962,7 +26962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.031
+      value: 89.667
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f941e080f9fc166498495d32e398e968, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -30412,6 +30412,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2123383650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123383640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd64dd68d159a544d9fcded9c5655077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrendiPasseggeri
+  abbordo: 0
+  Destinazione: {fileID: 1099988166}
+  nuovaPos: {x: 0, y: 0, z: 0}
+  SoundEntrata: {fileID: 8300000, guid: 08ab7053d586c458db3774d33c141a4b, type: 3}
+  passeggero: {fileID: 0}
 --- !u!1001 &2123712390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31037,7 +31054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4183987579822881158, guid: abf9684311e3d2a4fbbb3395c1e3d678, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 113.1
+      value: -1.23
       objectReference: {fileID: 0}
     - target: {fileID: 4183987579822881158, guid: abf9684311e3d2a4fbbb3395c1e3d678, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31045,7 +31062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4183987579822881158, guid: abf9684311e3d2a4fbbb3395c1e3d678, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.2
+      value: 42.81
       objectReference: {fileID: 0}
     - target: {fileID: 4183987579822881158, guid: abf9684311e3d2a4fbbb3395c1e3d678, type: 3}
       propertyPath: m_LocalRotation.w
@@ -31165,6 +31182,10 @@ PrefabInstance:
       value: ScuolaToMunicipio
       objectReference: {fileID: 0}
     - target: {fileID: 3153938208699052616, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3153938208699052616, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
       propertyPath: Destinazione
       value: 
       objectReference: {fileID: 1099988166}
@@ -31216,13 +31237,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3153938208699052616, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1081635031354318961, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2123383645}
+    - targetCorrespondingSourceObject: {fileID: 1081635031354318961, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2123383650}
   m_SourcePrefab: {fileID: 100100000, guid: 7699dd1b8a342204d9f6cf89e0311636, type: 3}
 --- !u!1001 &8755055383470508205
 PrefabInstance:

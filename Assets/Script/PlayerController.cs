@@ -20,8 +20,8 @@ public class MoveForwardCar : MonoBehaviour
     public TextMeshProUGUI testoTimer;
     public TextMeshProUGUI testoPowerUP;
     private PickUpClient pickUpClientScript;
-    private ScuolaToMunicipioScript scuolaScript;
-    private ParcheggioToLibreriaScript libreriaScript;
+    private PrendiPasseggeri prendiPasseggeriScript;
+    private PrendiPasseggeri libreriaScript;
     private Rigidbody playerRB;
     public AudioClip StartUp;
     public AudioSource PlayerSource;
@@ -33,15 +33,16 @@ public class MoveForwardCar : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Utilizzare la classe prendipassegeriScript per gestire i passeggeri basta instanziare un oggetto con lo script PrendiPasseggeri e assegnarlo alla variabile prendiPasseggeriScript
         moveAction.Enable();
         interazioneAction.Enable();
         pickUpClientScript=GameObject.Find("Clienti").GetComponent<PickUpClient>();
-        scuolaScript=GameObject.Find("ScuolaToMunicipio").GetComponent<ScuolaToMunicipioScript>();
-        libreriaScript=GameObject.Find("ParkToLibreria").GetComponent<ParcheggioToLibreriaScript>();
+        prendiPasseggeriScript=GameObject.Find("ScuolaToMunicipio").GetComponent<PrendiPasseggeri>();
+        libreriaScript=GameObject.Find("ParkToLibreria").GetComponent<PrendiPasseggeri>();
         playerRB=GetComponent<Rigidbody>();
         PlayerSource=GetComponent<AudioSource>();
         PlayerSource.PlayOneShot(StartUp);
-        pickUpClientScript.TimePowerUp.SetActive(false);    //Allo start viene settato il gameobject a false
+        pickUpClientScript.TimePowerUp.SetActive(false);    //Allo start viene settato il PowerUP del tempo a false
         currentSpeed=baseSpeed;
     }
 
@@ -66,9 +67,6 @@ public class MoveForwardCar : MonoBehaviour
             else
             {
                 time=0;
-                Destroy(pickUpClientScript.gameObject);
-                Destroy(scuolaScript.gameObject);
-                Destroy(libreriaScript.gameObject);
                 Debug.Log("Tempo Scaduto");
             }
         
@@ -146,7 +144,6 @@ public class MoveForwardCar : MonoBehaviour
             pickUpClientScript.IsInCar=false;
             pickUpClientScript.elementoHUD.SetActive(false);
             pickUpClientScript.boxInterazione.gameObject.SetActive(false);
-            //Destroy(testoTimer);
             pickUpClientScript.gameObject.SetActive(true);
             pickUpClientScript.newPos=transform.position;
             pickUpClientScript.gameObject.transform.position=pickUpClientScript.newPos;
@@ -158,29 +155,32 @@ public class MoveForwardCar : MonoBehaviour
             StartCoroutine(MioRitardo());
             
         }
-        //gestusce il passeggero che deve arrivare al municipio
+
         if (collision.gameObject.CompareTag("DestinazioneMunicipio"))
         {
-            scuolaScript.Abbordo=false;
-            scuolaScript.gameObject.SetActive(true);
-            scuolaScript.nuovaPos=transform.position;
-            scuolaScript.gameObject.transform.position=scuolaScript.nuovaPos;
-            scuolaScript.scuolaPasseggero.PlayOneShot(dropOFFSound);
-            scuolaScript.Destinazione.SetActive(false);
+            prendiPasseggeriScript.abbordo=false;
+            prendiPasseggeriScript.gameObject.SetActive(true);
+            prendiPasseggeriScript.nuovaPos=transform.position;
+            prendiPasseggeriScript.gameObject.transform.position=prendiPasseggeriScript.nuovaPos;
+            prendiPasseggeriScript.Destinazione.SetActive(false);
             time+=15.0f;
+            Destroy(prendiPasseggeriScript);
             Debug.Log("Arrivato");
+            StartCoroutine(MioRitardo());
         }
-        //gestisce il passeggero che deve arrivare alla libreria
+
+        //Gestisce il passeggero della libreria
         if (collision.gameObject.CompareTag("Libreria"))
         {
-           libreriaScript.Abbordo=false;
+           libreriaScript.abbordo=false;
            libreriaScript.gameObject.SetActive(true);
-           libreriaScript.nuovaPosizione=transform.position;
-           libreriaScript.gameObject.transform.position=libreriaScript.nuovaPosizione;
-           libreriaScript.passeggero3.PlayOneShot(dropOFFSound);
+           libreriaScript.nuovaPos=transform.position;
+           libreriaScript.gameObject.transform.position=libreriaScript.nuovaPos;
+           libreriaScript.passeggero.PlayOneShot(dropOFFSound);
            libreriaScript.Destinazione.SetActive(false);
-           time+=15.0f;
-           Debug.Log("Arrivato");
+            time+=15.0f;
+            Debug.Log("Arrivato");
+            StartCoroutine(MioRitardo());
         }
 
         if (collision.gameObject.CompareTag("PowerUp"))
@@ -190,7 +190,7 @@ public class MoveForwardCar : MonoBehaviour
         
     }
 
-    //Se l'oggetto entra in contatto con il powerUP viene disattivato, la varibile impostata a true e viene chiamata la funzione PowerUp
+    //Se l'oggetto entra in contatto con il powerUP viene disattivato, la varibile impostata a true e viene chiamata la funzione SpeedPowerUp
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PowerUp"))
@@ -217,6 +217,11 @@ public class MoveForwardCar : MonoBehaviour
         yield return new WaitForSeconds(5f);
         Debug.Log("Son passati 5 secondi.");
         Destroy(pickUpClientScript.gameObject);
+        if (prendiPasseggeriScript.abbordo == false && libreriaScript.abbordo ==false)
+        {
+            Destroy(prendiPasseggeriScript.gameObject);
+            Destroy(libreriaScript.gameObject);
+        }
         
     }
 
