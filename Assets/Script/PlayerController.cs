@@ -13,21 +13,32 @@ public class MoveForwardCar : MonoBehaviour
     private float time=100.0f;
     public float timePowerUp=5.0f;
     int sec;
+    int Completed=0;
     public InputAction moveAction;
     public Vector2 moveInput;
     public Vector3 pos;
     public InputAction interazioneAction;
+    public InputAction apriMappaAction;
+    public InputAction esciMappaAction;
     public TextMeshProUGUI testoTimer;
     public TextMeshProUGUI testoPowerUP;
     private PickUpClient pickUpClientScript;
     private PrendiPasseggeri prendiPasseggeriScript;
+    private PrendiPasseggeri chiesaPasseggero;
     private PrendiPasseggeri libreriaScript;
     private Rigidbody playerRB;
     public AudioClip StartUp;
+    public AudioClip boostPowerUp;
+    public AudioClip timePowerUpAudio;
     public AudioSource PlayerSource;
     public GameObject PowerUPspeed;
+    public GameObject HUD;
+    public GameObject apriMappa;
     public AudioClip dropOFFSound;
     public ParticleSystem entranceParticle;
+    public ParticleSystem boost;
+    public TextMeshProUGUI testoVittoria;
+    
     public bool HaPowerUp=false;
     public bool addTimePowerUp=false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,14 +47,20 @@ public class MoveForwardCar : MonoBehaviour
         //Utilizzare la classe prendipassegeriScript per gestire i passeggeri basta instanziare un oggetto con lo script PrendiPasseggeri e assegnarlo alla variabile prendiPasseggeriScript
         moveAction.Enable();
         interazioneAction.Enable();
+        apriMappaAction.Enable();
+        esciMappaAction.Enable();
         pickUpClientScript=GameObject.Find("Clienti").GetComponent<PickUpClient>();
         prendiPasseggeriScript=GameObject.Find("ScuolaToMunicipio").GetComponent<PrendiPasseggeri>();
+        chiesaPasseggero=GameObject.Find("ChiesaToPark").GetComponent<PrendiPasseggeri>();
         libreriaScript=GameObject.Find("ParkToLibreria").GetComponent<PrendiPasseggeri>();
         playerRB=GetComponent<Rigidbody>();
         PlayerSource=GetComponent<AudioSource>();
         PlayerSource.PlayOneShot(StartUp);
         pickUpClientScript.TimePowerUp.SetActive(false);    //Allo start viene settato il PowerUP del tempo a false
         currentSpeed=baseSpeed;
+        apriMappa.SetActive(false);
+        boost.Stop();
+        testoVittoria.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -58,7 +75,24 @@ public class MoveForwardCar : MonoBehaviour
 
         transform.Rotate(Vector3.up, Time.deltaTime* turnspeed*moveInput.x);
 
-        
+        if (apriMappaAction.triggered)
+        {
+            Debug.Log("Mappa aperta");
+            HUD.SetActive(false);
+            apriMappa.SetActive(true);
+            moveAction.Disable();   //disabilità il movimento della macchina
+            
+            
+        }
+
+        if (esciMappaAction.triggered)
+        {   
+                Debug.Log("Mappa chiusa");
+                HUD.SetActive(true);
+                apriMappa.SetActive(false);
+                moveAction.Enable();
+        }
+
             if (time > 0)
             {
                 time-=Time.deltaTime;
@@ -70,17 +104,34 @@ public class MoveForwardCar : MonoBehaviour
                 Debug.Log("Tempo Scaduto");
             }
         
+
+        if (Completed >= 4)
+            {
+                Destroy(testoTimer);
+                testoVittoria.gameObject.SetActive(true);
+                moveAction.Disable();
+            }
+            else if(Completed < 4 && time <= 0)
+            {
+                Destroy(testoTimer);
+                testoVittoria.text="Tempo Scaduto, Hai Perso!";
+                testoVittoria.gameObject.SetActive(true);
+                moveAction.Disable();
+            }
+
         
         if (HaPowerUp)
         {
             //Debug.Log("Tempo avviato"+HaPowerUp);
             if(timePowerUp> 0)
             {
+                boost.Play();
                 timePowerUp-=Time.deltaTime;
                 AggiornaGraficaPowerUp();
             }
             else 
             {
+                boost.Stop();
                 timePowerUp=5;          //Invece di imposarlo a 0 il timer cosi viene resettato in grado di poter essere ripreso di nuovo
                 HaPowerUp=false;
                 currentSpeed=baseSpeed;
@@ -115,11 +166,13 @@ public class MoveForwardCar : MonoBehaviour
     {
         if (HaPowerUp)
         {
-            
+            boost.Play();
+            PlayerSource.PlayOneShot(boostPowerUp);
             currentSpeed=baseSpeed+multiplierSpeed;
             Debug.Log("Colissione avvenuta con powerUp settato a"+HaPowerUp);
         }else
         {
+            boost.Stop();
             currentSpeed=baseSpeed;
             Debug.Log("Variabile impostata false,Velocità ristabilita");
         }
@@ -132,12 +185,18 @@ public class MoveForwardCar : MonoBehaviour
         Debug.Log(addTimePowerUp+" Tempo Power UP");
         if (addTimePowerUp)
         {
+            PlayerSource.PlayOneShot(timePowerUpAudio);
             time+=5;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+
+
+       
+
+
         //gestisce il passeggero degli uffici
         if (collision.gameObject.CompareTag("Destinazione"))
         {
@@ -149,24 +208,27 @@ public class MoveForwardCar : MonoBehaviour
             pickUpClientScript.gameObject.transform.position=pickUpClientScript.newPos;
             pickUpClientScript.passeggeroSource.PlayOneShot(dropOFFSound);
             pickUpClientScript.Destinazione.SetActive(false); 
-            time+=15.0f;                    //Ad ogni fine corsa, viene aggiunto tempo extra
+            time+=15.0f;                 //Ad ogni fine corsa, viene aggiunto tempo extra
+            Completed+=1;
             Debug.Log("Ci sei sopra!");
             
-            StartCoroutine(MioRitardo());
+            
             
         }
 
         if (collision.gameObject.CompareTag("DestinazioneMunicipio"))
         {
             prendiPasseggeriScript.abbordo=false;
+            prendiPasseggeriScript.Hud_descrizione.SetActive(false);
             prendiPasseggeriScript.gameObject.SetActive(true);
             prendiPasseggeriScript.nuovaPos=transform.position;
             prendiPasseggeriScript.gameObject.transform.position=prendiPasseggeriScript.nuovaPos;
+            prendiPasseggeriScript.passeggero.PlayOneShot(dropOFFSound);
             prendiPasseggeriScript.Destinazione.SetActive(false);
             time+=15.0f;
-            Destroy(prendiPasseggeriScript);
+            Completed+=1;
             Debug.Log("Arrivato");
-            StartCoroutine(MioRitardo());
+            
         }
 
         //Gestisce il passeggero della libreria
@@ -174,18 +236,36 @@ public class MoveForwardCar : MonoBehaviour
         {
            libreriaScript.abbordo=false;
            libreriaScript.gameObject.SetActive(true);
+           libreriaScript.Hud_descrizione.SetActive(false);
            libreriaScript.nuovaPos=transform.position;
            libreriaScript.gameObject.transform.position=libreriaScript.nuovaPos;
            libreriaScript.passeggero.PlayOneShot(dropOFFSound);
            libreriaScript.Destinazione.SetActive(false);
             time+=15.0f;
+            Completed+=1;
             Debug.Log("Arrivato");
-            StartCoroutine(MioRitardo());
+            
         }
 
         if (collision.gameObject.CompareTag("PowerUp"))
         {
             SpeedPowerUp();
+        }
+
+
+        if (collision.gameObject.CompareTag("DestinazioneParcheggio"))
+        {
+            chiesaPasseggero.abbordo=false;
+            chiesaPasseggero.Hud_descrizione.SetActive(false);
+            chiesaPasseggero.gameObject.SetActive(true);
+            chiesaPasseggero.nuovaPos=transform.position;
+            chiesaPasseggero.gameObject.transform.position=chiesaPasseggero.nuovaPos;
+            chiesaPasseggero.passeggero.PlayOneShot(dropOFFSound);
+            chiesaPasseggero.Destinazione.SetActive(false);
+            time+=15.0f;
+            Completed+=1;
+            Debug.Log("Arrivato");
+            
         }
         
     }
@@ -216,12 +296,7 @@ public class MoveForwardCar : MonoBehaviour
         Debug.Log("Inzio attesa....");
         yield return new WaitForSeconds(5f);
         Debug.Log("Son passati 5 secondi.");
-        Destroy(pickUpClientScript.gameObject);
-        if (prendiPasseggeriScript.abbordo == false && libreriaScript.abbordo ==false)
-        {
-            Destroy(prendiPasseggeriScript.gameObject);
-            Destroy(libreriaScript.gameObject);
-        }
+
         
     }
 

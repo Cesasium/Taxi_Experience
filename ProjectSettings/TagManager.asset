@@ -11,6 +11,10 @@ TagManager:
   - TimePowerUp
   - DestinazioneMunicipio
   - Libreria
+  - Mappa
+  - HUD
+  - ProvaMappa
+  - DestinazioneParcheggio
   layers:
   - Default
   - TransparentFX
