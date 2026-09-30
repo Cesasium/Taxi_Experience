@@ -37,7 +37,8 @@ public class MoveForwardCar : MonoBehaviour
     public AudioClip dropOFFSound;
     public ParticleSystem entranceParticle;
     public ParticleSystem boost;
-    public TextMeshProUGUI testoVittoria;
+    public GameObject vittoria;
+    public GameObject gameOver;
     
     public bool HaPowerUp=false;
     public bool addTimePowerUp=false;
@@ -60,7 +61,8 @@ public class MoveForwardCar : MonoBehaviour
         currentSpeed=baseSpeed;
         apriMappa.SetActive(false);
         boost.Stop();
-        testoVittoria.gameObject.SetActive(false);
+        vittoria.SetActive(false);
+        gameOver.SetActive(false);
     }
 
     // Update is called once per frame
@@ -108,14 +110,13 @@ public class MoveForwardCar : MonoBehaviour
         if (Completed >= 4)
             {
                 Destroy(testoTimer);
-                testoVittoria.gameObject.SetActive(true);
+                vittoria.SetActive(true);
                 moveAction.Disable();
             }
             else if(Completed < 4 && time <= 0)
             {
                 Destroy(testoTimer);
-                testoVittoria.text="Tempo Scaduto, Hai Perso!";
-                testoVittoria.gameObject.SetActive(true);
+                gameOver.SetActive(true);
                 moveAction.Disable();
             }
 
