@@ -6,12 +6,13 @@ using System.Collections;
 public class MoveForwardCar : MonoBehaviour
 {
 
-    public float baseSpeed = 10.0f;
+    public float baseSpeed = 10;
     public float multiplierSpeed;
     public float currentSpeed;
     public float turnspeed=70.0f;
     private float time=100.0f;
     public float timePowerUp=5.0f;
+    public float accelaration;
     int sec;
     int Completed=0;
     public InputAction moveAction;
@@ -69,13 +70,12 @@ public class MoveForwardCar : MonoBehaviour
     void Update()
     {
         moveInput=moveAction.ReadValue<Vector2>();
-        if (moveAction.triggered)
-        {
-            PlayerSource.PlayOneShot(StartUp,0);
-        }
+        
         transform.Translate(Vector3.forward *currentSpeed*moveInput.y*Time.deltaTime);
 
         transform.Rotate(Vector3.up, Time.deltaTime* turnspeed*moveInput.x);
+
+        
 
         if (apriMappaAction.triggered)
         {
@@ -195,9 +195,6 @@ public class MoveForwardCar : MonoBehaviour
     {
 
 
-       
-
-
         //gestisce il passeggero degli uffici
         if (collision.gameObject.CompareTag("Destinazione"))
         {
@@ -212,9 +209,6 @@ public class MoveForwardCar : MonoBehaviour
             time+=15.0f;                 //Ad ogni fine corsa, viene aggiunto tempo extra
             Completed+=1;
             Debug.Log("Ci sei sopra!");
-            
-            
-            
         }
 
         if (collision.gameObject.CompareTag("DestinazioneMunicipio"))

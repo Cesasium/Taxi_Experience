@@ -191,13 +191,38 @@ MonoBehaviour:
       m_Action: Interazione
       m_Flags: 0
     m_Flags: 0
+  apriMappaAction:
+    m_Name: Apri Mappa
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 72283e6b-f740-43f6-90b5-6e184559cbfa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  esciMappaAction:
+    m_Name: Esci Mappa
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 71e2c232-5661-4c44-b1f9-d48406c7d80c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   testoTimer: {fileID: 0}
   testoPowerUP: {fileID: 0}
   StartUp: {fileID: 8300000, guid: 56ad14cf6ac79e64ca4804c8c93fece0, type: 3}
+  boostPowerUp: {fileID: 0}
+  timePowerUpAudio: {fileID: 0}
   PlayerSource: {fileID: 0}
   PowerUPspeed: {fileID: 0}
+  HUD: {fileID: 0}
+  apriMappa: {fileID: 0}
   dropOFFSound: {fileID: 8300000, guid: 113ee460fadc340e4957a7404a9fbb27, type: 3}
   entranceParticle: {fileID: 3771955647005097466}
+  boost: {fileID: 0}
+  vittoria: {fileID: 0}
+  gameOver: {fileID: 0}
   HaPowerUp: 0
   addTimePowerUp: 0
 --- !u!82 &2811558845128143571
